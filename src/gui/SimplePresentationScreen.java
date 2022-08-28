@@ -1,6 +1,6 @@
 package gui;
 
-import java.awt.BorderLayout;
+
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
@@ -19,6 +19,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 // imports para date & time
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.swing.ImageIcon;
 
 
 @SuppressWarnings("serial")
@@ -42,29 +43,30 @@ public class SimplePresentationScreen extends JFrame {
 	private JLabel lblNombre;
 	private JLabel lblEmail;
 	private JLabel lblGithubUrl;
+	private JLabel lbl_foto;
 	
 	private JPanel panelDateTime;
 	private JLabel lbl_DateTime;
 	
 	
 	public SimplePresentationScreen(Student studentData) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(SimplePresentationScreen.class.getResource("/images/tdp.png")));
 		this.studentData = studentData;
 		
+		initialize();
+	}
+	
+	private void initialize() {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(null);
 		
+		setIconImage(Toolkit.getDefaultToolkit().getImage(SimplePresentationScreen.class.getResource("/images/tdp.png")));
 		setTitle("TdP-DCIC-UNS 2021 :: Pantalla de presentación");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(new Dimension(615, 260));
 		setResizable(false);
 		setContentPane(contentPane);
 		
-		init();
-	}
-	
-	private void init() {
-		contentPane.setLayout(null);
 		// Tabbed Pane to student personal data
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(5, 5, 430, 182);
@@ -84,6 +86,11 @@ public class SimplePresentationScreen extends JFrame {
 		lblEmail = new JLabel("E-mail");
 		
 		lblGithubUrl = new JLabel("Github URL");
+		
+		lbl_foto = new JLabel("");
+		lbl_foto.setIcon(new ImageIcon(SimplePresentationScreen.class.getResource(studentData.getPathPhoto())));
+		lbl_foto.setBounds(470, 50, 100, 100);
+		contentPane.add(lbl_foto);
 		
 		txtF_LU = new JTextField();
 		txtF_LU.setText(""+ studentData.getId());
@@ -175,7 +182,8 @@ public class SimplePresentationScreen extends JFrame {
 		panelDateTime.setLayout(null);
 		lbl_DateTime = new JLabel("Esta ventana fue generada el "+ ZonedDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))+ " a las: " + ZonedDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")) );
 		lbl_DateTime.setBounds(10, 0, 564, 25);
-//		lbl_DateTime.setText("Esta ventana fue generada el "+ );
 		panelDateTime.add(lbl_DateTime);
+		
+		
 	}
 }
